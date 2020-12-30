@@ -43,9 +43,11 @@ public class Login extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("Password");
 		
-		UserT u = new UserT(username, password);
+		User u = new User(username, password);
 		
-		Configuration con = new Configuration().configure().addAnnotatedClass(UserT.class);
+		Configuration con = new Configuration().configure().addAnnotatedClass(User.class)
+				.addAnnotatedClass(Hotel.class).addAnnotatedClass(Room.class).addAnnotatedClass(Reservation.class)
+				.addAnnotatedClass(Rate.class).addAnnotatedClass(Name.class);
 		SessionFactory sf = con.buildSessionFactory();
 		Session sess = sf.openSession();
 		Transaction t = sess.beginTransaction();
