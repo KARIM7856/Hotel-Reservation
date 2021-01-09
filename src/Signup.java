@@ -2,12 +2,20 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
 import net.tanesha.recaptcha.ReCaptchaImpl;
 import net.tanesha.recaptcha.ReCaptchaResponse;
 /**
@@ -47,15 +55,28 @@ public class Signup extends HttpServlet {
         if(captchaSuccess) {
         	String toEmail = request.getParameter("email");
         	PasswordGenerator pwdGenerator = new PasswordGenerator.PasswordGeneratorBuilder()
-        			.useLower(true).useUpper(true).useDigits(true).usePunctuation(true).build();
-        	
+        			.useLower(true).useUpper(true).useDigits(true).build();
+        	String fname = request.getParameter("fName");
+        	String mname = request.getParameter("mName");
+        	String lname = request.getParameter("lName");
+        	String username = request.getParameter("username");
+        	String phoneNumber = request.getParameter("phonenumber");
+        
+        	//generate and hash password
         	String tempPwd = pwdGenerator.generate(10);
+        	String pwdHash = WebsiteSecurity.passwordDigest(tempPwd);
+        	Name name = new Name();
+        	name.setfName(request.getParameter("fName"));
+        	name.setmName(request.getParameter("mName"));
+        	name.setlName(request.getParameter("lName"));
+        	User newUser = new User(name, username, pwdHash, phoneNumber,toEmail,"user" );
+        	
+        	HibernateUtil.getInstance().saveUser(newUser);
+        	
         	
         	String body = EmailHandler.getPwdEmailBody(tempPwd);
         	String subject = "One-time Password";
-        	
         	EmailHandler.sendEmail(toEmail, subject, body);
-        	
         	response.sendRedirect("index.html");
         }
         else{

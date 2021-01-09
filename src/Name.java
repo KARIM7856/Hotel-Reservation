@@ -16,6 +16,9 @@ public class Name {
 		this.mName = mName;
 		this.lName = lName;
 	}
+	public Name() {
+		super();
+	}
 	public String getfName() {
 		return fName;
 	}

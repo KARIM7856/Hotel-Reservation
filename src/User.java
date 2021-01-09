@@ -35,6 +35,26 @@ public class User {
 		this.username = name;
 		this.password = password;
 	}
+	
+	/**
+	 * @param aid
+	 * @param name
+	 * @param username
+	 * @param password
+	 * @param phonenumber
+	 * @param email
+	 * @param type
+	 */
+	public User(Name name, String username, String password, String phonenumber, String email, String type) {
+		super();
+		this.name = name;
+		this.username = username;
+		this.password = password;
+		this.phonenumber = phonenumber;
+		this.email = email;
+		this.type = type;
+	}
+
 	public String getName() {
 		return username;
 	}

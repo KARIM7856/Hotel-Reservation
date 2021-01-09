@@ -1,11 +1,15 @@
 
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -39,26 +43,27 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+		String pwd = request.getParameter("password1");
+		System.out.println(pwd);
+		String username = request.getParameter("username1");
 		
-		String username = request.getParameter("username");
-		String password = request.getParameter("Password");
+		String pwdHash = WebsiteSecurity.passwordDigest(pwd);
 		
-		User u = new User(username, password);
+		Session sess = HibernateUtil.getInstance().getSession();
 		
-		Configuration con = new Configuration().configure().addAnnotatedClass(User.class)
-				.addAnnotatedClass(Hotel.class).addAnnotatedClass(Room.class).addAnnotatedClass(Reservation.class)
-				.addAnnotatedClass(Rate.class).addAnnotatedClass(Name.class);
-		SessionFactory sf = con.buildSessionFactory();
-		Session sess = sf.openSession();
-		Transaction t = sess.beginTransaction();
+		Query q = sess.createQuery("select u.password from User u where u.username= :username");
+		q.setParameter("username", username);
+		List res = q.list();
+		String dbPwdHash = (String) res.get(0);
 		
-		
-		
-		sess.save(u);
-		
-		t.commit();
-		
-		response.getWriter().println("SSSS");
+		if(pwdHash.equals(dbPwdHash)) {
+			response.sendRedirect("UserHome.jsp");
+			System.out.println("sucess");
+		}
+		else {
+			response.sendRedirect("index.html");
+			System.out.println("fail");
+		}
 	}
 
 }
