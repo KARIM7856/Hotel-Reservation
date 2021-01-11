@@ -28,6 +28,7 @@
 	Last Name<input type="text" name=lName placeholder="Last Name">
 	Username: <input type="text" name=username placeholder="Username">
 	Email: <input type="email" name=email placeholder="Email">
+	Phonenumber: <input type="phonenumber" name=phonenumber placeholder="Phonenumber">
 	<input type="submit" value=submit>
 </form>
 </body>

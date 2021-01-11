@@ -1,7 +1,8 @@
+package IA_Project.WebData;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class Name {
+public class Name implements java.io.Serializable {
 	String fName;
 	String mName;
 	String lName;
@@ -36,6 +37,10 @@ public class Name {
 	}
 	public void setlName(String lName) {
 		this.lName = lName;
+	}
+	@Override
+	public String toString() {
+		return "Name [fName=" + fName + ", mName=" + mName + ", lName=" + lName + "]";
 	}
 	
 	

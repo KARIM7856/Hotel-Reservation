@@ -5,15 +5,20 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.hibernate.Query;
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+
+import IA_Project.WebData.*;
+import IA_Project.Util.*;
 /**
  * Servlet implementation class Login
  */
@@ -48,17 +53,35 @@ public class Login extends HttpServlet {
 		String username = request.getParameter("username1");
 		
 		String pwdHash = WebsiteSecurity.passwordDigest(pwd);
-		
+		System.out.println(pwdHash);
 		Session sess = HibernateUtil.getInstance().getSession();
 		
-		Query q = sess.createQuery("select u.password from User u where u.username= :username");
+		Query q = sess.createQuery("select u.passwordHash, u.type, u.aid from User u where u.username= :username");
 		q.setParameter("username", username);
-		List res = q.list();
-		String dbPwdHash = (String) res.get(0);
+		List<Object[]> res = q.list();
 		
+		String dbPwdHash = (String) res.get(0)[0];
+		String type = (String) res.get(0)[1];
+		int aid = (Integer) res.get(0)[2];
 		if(pwdHash.equals(dbPwdHash)) {
-			response.sendRedirect("UserHome.jsp");
+			User user = (User)sess.load(User.class, aid);
+			System.out.println(user);
+			HttpSession requestSession = request.getSession(true);
+
+			System.out.println(requestSession.getId());
+			requestSession.setAttribute("currentUser", user);
+			switch(type) {
+			case "user":
+				response.sendRedirect("UserHome.jsp");
+				break;
+			case "admin":
+				response.sendRedirect("AdminHome.jsp");
+				break;
+			
+			}
 			System.out.println("sucess");
+			
+			sess.close();
 		}
 		else {
 			response.sendRedirect("index.html");

@@ -1,3 +1,4 @@
+package IA_Project.WebData;
 import javax.persistence.Entity;
 
 @Entity

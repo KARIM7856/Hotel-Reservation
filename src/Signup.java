@@ -18,6 +18,9 @@ import org.hibernate.cfg.Configuration;
 
 import net.tanesha.recaptcha.ReCaptchaImpl;
 import net.tanesha.recaptcha.ReCaptchaResponse;
+
+import IA_Project.WebData.*;
+import IA_Project.Util.*;
 /**
  * Servlet implementation class Signup
  */
