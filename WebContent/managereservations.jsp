@@ -52,6 +52,7 @@
 	</tr>
 	<%
 		}
+sess.close();
 	%>
 	</table>
 	<input type=submit name="delete" value="Delete">
@@ -61,8 +62,7 @@
 
 	
 
-<%
-sess.close(); %>
+
 System.out.println("sessionCLosedManage.jsp");
 </body>
 </html>

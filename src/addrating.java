@@ -1,29 +1,34 @@
 
 
 import java.io.IOException;
+import java.sql.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import IA_Project.Util.HibernateUtil;
-import IA_Project.WebData.Reservation;
+import IA_Project.WebData.Hotel;
+import IA_Project.WebData.Rate;
+import IA_Project.WebData.User;
 
 /**
- * Servlet implementation class deletereservation
+ * Servlet implementation class addrating
  */
-@WebServlet("/deletereservation")
-public class deletereservation extends HttpServlet {
+@WebServlet("/addrating")
+public class addrating extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public deletereservation() {
+    public addrating() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -42,15 +47,33 @@ public class deletereservation extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
-		Reservation reservation = (Reservation) request.getSession(false).getAttribute("currentReservation");
+		
+		String rating = request.getParameter("rating");
+		int ratingI = Integer.parseInt(rating);
+		Hotel hotel = (Hotel) request.getSession(false).getAttribute("currentHotel");
+		User user = (User) request.getSession(false).getAttribute("currentUser");
+		
+		Date date = new Date(java.util.Calendar.getInstance().getTime().getTime());
+		
+		String comment = request.getParameter("ratecomment");
+		
+		Rate rate = new Rate(user,hotel,comment,ratingI,date);
+		
 		Session sess = HibernateUtil.getInstance().getSession();
-		reservation.setCancelled(true);
-		reservation.setActive(false);
 		Transaction t = sess.beginTransaction();
-		sess.update(reservation.getHotel());
-		sess.update(reservation);
+		
+		
+		//hotel.addRating(rate);
+		
+		sess.save(rate);
+		double avgRate = (double) sess.createQuery("Select avg(r.rate) from Rate r").getSingleResult();
+		System.out.println("rate: " + avgRate);
+		hotel.setUserRating(avgRate);
+		sess.update(hotel);
 		t.commit();
+		
 		sess.close();
+		
 	}
 
 }

@@ -125,6 +125,9 @@ public class Hotel implements java.io.Serializable {
 	public void setRooms(List<Room> rooms) {
 		this.rooms = rooms;
 	}
+	public void addRating(Rate rate) {
+		rates.add(rate);
+	}
 	
 	
 }

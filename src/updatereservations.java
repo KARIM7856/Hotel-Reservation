@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import IA_Project.Util.HibernateUtil;
 import IA_Project.WebData.Reservation;
 import IA_Project.WebData.RoomInfo;
@@ -69,8 +73,12 @@ public class updatereservations extends HttpServlet {
 		}
 		reservation.setPrice(price);
 		//reservation.updatePrice();
-		
-		HibernateUtil.getInstance().updateResrvation(reservation);
+		Session sess = HibernateUtil.getInstance().getSession();
+		Transaction t = sess.beginTransaction();
+		sess.update(reservation.getHotel());
+		sess.update(reservation);
+		t.commit();
+		sess.close();
 		
 	}
 

@@ -8,7 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Room {
+public class Room implements java.io.Serializable {
 	@Id
 	int rid;
 	
