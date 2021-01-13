@@ -128,6 +128,10 @@ public class Hotel implements java.io.Serializable {
 	public void addRating(Rate rate) {
 		rates.add(rate);
 	}
+	public void addImage(String i) {
+		this.images.add(i);
+		
+	}
 	
 	
 }

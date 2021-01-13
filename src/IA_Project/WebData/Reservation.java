@@ -34,6 +34,7 @@ public class Reservation implements java.io.Serializable {
 	Date checkIn;
 	Date expectedCheckOut;
 	Date actualCheckOut;
+	Date actualCheckin;
 	
 	public Reservation() {
 		
@@ -141,6 +142,12 @@ public class Reservation implements java.io.Serializable {
 			price += ri.getnRooms()*ri.getRoom().getPrice()*nDays;
 		}
 		this.price = price;
+	}
+	public Date getActualCheckin() {
+		return actualCheckin;
+	}
+	public void setActualCheckin(Date actualCheckin) {
+		this.actualCheckin = actualCheckin;
 	}
 	
 	

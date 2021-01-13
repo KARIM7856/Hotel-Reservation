@@ -1,6 +1,8 @@
 
 
 import java.io.IOException;
+import java.sql.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,19 +14,18 @@ import org.hibernate.Transaction;
 
 import IA_Project.Util.HibernateUtil;
 import IA_Project.WebData.Reservation;
-import IA_Project.WebData.User;
 
 /**
- * Servlet implementation class deletereservation
+ * Servlet implementation class checkinreservation
  */
-@WebServlet("/deletereservation")
-public class deletereservation extends HttpServlet {
+@WebServlet("/checkinreservation")
+public class checkinreservation extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public deletereservation() {
+    public checkinreservation() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,21 +45,16 @@ public class deletereservation extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 		Reservation reservation = (Reservation) request.getSession(false).getAttribute("currentReservation");
-		
-		
-		
-		
 		Session sess = HibernateUtil.getInstance().getSession();
-		reservation.setCancelled(true);
-		reservation.setActive(false);
+		reservation.setActualCheckin(new Date(java.util.Calendar.getInstance().getTimeInMillis()));
 		Transaction t = sess.beginTransaction();
-		User user = reservation.getUser();
-		EmailHandler.sendEmail(user.getEmail(), "user deleted " + reservation.getHotel().getName(), "user dleeted hist bta3");
 		sess.update(reservation.getHotel());
 		sess.update(reservation);
 		t.commit();
 		sess.close();
-		response.getWriter().println("reservation deleted");
+		response.getWriter().println("reservation checkin");
+		
+		response.sendRedirect("currentreservations.jsp");
 	}
 
 }

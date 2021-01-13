@@ -42,7 +42,9 @@ public class managereservations extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 		String ridS = request.getParameter("selectedreservation");
-		int rid = Integer.parseInt(ridS);
+		int rid=0;
+		if(ridS != null)
+			rid = Integer.parseInt(ridS);
 		Reservation res = HibernateUtil.getInstance().loadReservation(rid);
 		res.getRoomInfos();
 		request.getSession(false).setAttribute("currentReservation", res);
@@ -53,6 +55,18 @@ public class managereservations extends HttpServlet {
 		}
 		else if(request.getParameter("delete") != null) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("deletereservation");
+			dispatcher.forward(request,response);
+		}
+		else if(request.getParameter("confirmpayment")!= null){
+			RequestDispatcher dispatcher = request.getRequestDispatcher("confirmpayment");
+			dispatcher.forward(request,response);
+		}
+		else if(request.getParameter("checkin")!= null){
+			RequestDispatcher dispatcher = request.getRequestDispatcher("checkinreservation");
+			dispatcher.forward(request,response);
+		}
+		else if(request.getParameter("checkout")!= null){
+			RequestDispatcher dispatcher = request.getRequestDispatcher("checkoutreservation");
 			dispatcher.forward(request,response);
 		}
 	}

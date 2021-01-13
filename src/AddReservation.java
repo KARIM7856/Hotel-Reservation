@@ -65,9 +65,19 @@ public class AddReservation extends HttpServlet {
 		Date checkout = (Date)request.getSession(false).getAttribute("checkout");
 		Reservation res = new Reservation(currentHotel,currentUser,roomInfoList,true,false,false,1000,checkin,checkout);
 		currentUser.getReservations().add(res);
+		
+		res.updatePrice();
 		Session sess = HibernateUtil.getInstance().getSession();
 		Transaction t = sess.beginTransaction();
 		
+		
+		for(RoomInfo rinfo : roomInfoList) {
+			sess.saveOrUpdate(rinfo);
+			sess.flush();
+			sess.clear();
+		}
+		
+		//sess.save(res.getRoomInfos());
 		sess.save(res);
 		
 		t.commit();

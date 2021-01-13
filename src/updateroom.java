@@ -11,20 +11,20 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import IA_Project.Util.HibernateUtil;
-import IA_Project.WebData.Reservation;
-import IA_Project.WebData.User;
+import IA_Project.WebData.Hotel;
+import IA_Project.WebData.Room;
 
 /**
- * Servlet implementation class deletereservation
+ * Servlet implementation class updateroom
  */
-@WebServlet("/deletereservation")
-public class deletereservation extends HttpServlet {
+@WebServlet("/updateroom")
+public class updateroom extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public deletereservation() {
+    public updateroom() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -43,22 +43,38 @@ public class deletereservation extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
-		Reservation reservation = (Reservation) request.getSession(false).getAttribute("currentReservation");
 		
+		Hotel hotel = (Hotel)request.getSession(false).getAttribute("currentHotel");
 		
+		int rid = Integer.parseInt(request.getParameter("selectedroom"));
 		
+		Room room;
+		String type = request.getParameter("type");
+		String nBedsS = request.getParameter("nbeds");
+		String nRoomsS = request.getParameter("nrooms");
+		String priceS = request.getParameter("price");
+		
+		int nBeds = Integer.parseInt(nBedsS);
+		int nRooms = Integer.parseInt(nRoomsS);
+		
+		double price = Double.parseDouble(priceS);
 		
 		Session sess = HibernateUtil.getInstance().getSession();
-		reservation.setCancelled(true);
-		reservation.setActive(false);
 		Transaction t = sess.beginTransaction();
-		User user = reservation.getUser();
-		EmailHandler.sendEmail(user.getEmail(), "user deleted " + reservation.getHotel().getName(), "user dleeted hist bta3");
-		sess.update(reservation.getHotel());
-		sess.update(reservation);
+		room = sess.get(Room.class, rid);
+		
 		t.commit();
 		sess.close();
-		response.getWriter().println("reservation deleted");
+		
+		room.setnBeds(nBeds);
+		room.setnRooms(nRooms);
+		room.setPrice(price);
+		room.setType(type);
+		System.out.println(room);
+		HibernateUtil.getInstance().updateRoom(room);;
+		
+		
+		response.sendRedirect("updatehotel.jsp");
 	}
 
 }

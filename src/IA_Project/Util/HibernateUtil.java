@@ -64,6 +64,32 @@ public class HibernateUtil {
         }
 	}
 	
+	public void updateRoom(Room r ) {
+		Session session;
+        try {
+            session = sessionFactory.getCurrentSession();
+        } catch (HibernateException ex) {
+            session = sessionFactory.openSession();
+        }
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            session.update(r.getHotel());
+            session.update(r);
+            transaction.commit();
+        } catch (HibernateException ex) {
+            System.out.println("Error deleting car: " + ex);
+            if(transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            if (session.isOpen()){
+                session.close();
+            }
+        }
+	}
+	
 	public Hotel loadHotel(int hid) {
 		Session sess = getSession();
 		Hotel hotel = (Hotel)sess.load(Hotel.class, hid);
@@ -105,5 +131,29 @@ public class HibernateUtil {
 		sess.close();
 		
 		return reservation;
+	}
+	public void updateHotel(Hotel h) {
+		// TODO Auto-generated method stub
+		Session session;
+
+        session = sessionFactory.openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+
+            session.update(h);
+            transaction.commit();
+        } catch (HibernateException ex) {
+        	ex.printStackTrace();
+            System.out.println("Error deleting car: " + ex);
+            if(transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            if (session.isOpen()){
+                session.close();
+            }
+        }
 	}
 }

@@ -12,6 +12,8 @@ public class RoomInfo implements java.io.Serializable{
 	int rid;
 	@ManyToOne
 	Room room;
+	@ManyToOne
+	Reservation r;
 	int nRooms;
 	/**
 	 * @param rid

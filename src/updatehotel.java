@@ -1,6 +1,8 @@
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,20 +13,20 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import IA_Project.Util.HibernateUtil;
-import IA_Project.WebData.Reservation;
-import IA_Project.WebData.User;
+import IA_Project.WebData.Hotel;
+import java.util.List;
 
 /**
- * Servlet implementation class deletereservation
+ * Servlet implementation class updatehotel
  */
-@WebServlet("/deletereservation")
-public class deletereservation extends HttpServlet {
+@WebServlet("/updatehotel")
+public class updatehotel extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public deletereservation() {
+    public updatehotel() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -43,22 +45,28 @@ public class deletereservation extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
-		Reservation reservation = (Reservation) request.getSession(false).getAttribute("currentReservation");
 		
+		String address = request.getParameter("address");
+		Hotel hotel = (Hotel)request.getSession(false).getAttribute("currentHotel");
+		String[] meals = request.getParameterValues("meal");
 		
+		List<String> newMeals =  new ArrayList<String>();
 		
+		for(String m : meals) {
+			newMeals.add(m);
+		}
+		hotel.setIncludingMeals(newMeals);
+		hotel.setAddress(address);
 		
 		Session sess = HibernateUtil.getInstance().getSession();
-		reservation.setCancelled(true);
-		reservation.setActive(false);
 		Transaction t = sess.beginTransaction();
-		User user = reservation.getUser();
-		EmailHandler.sendEmail(user.getEmail(), "user deleted " + reservation.getHotel().getName(), "user dleeted hist bta3");
-		sess.update(reservation.getHotel());
-		sess.update(reservation);
+		
+		sess.update(hotel);
+		
 		t.commit();
 		sess.close();
-		response.getWriter().println("reservation deleted");
+		
+		response.sendRedirect("updatehotel.jsp");
 	}
 
 }

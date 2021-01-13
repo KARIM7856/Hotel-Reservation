@@ -15,7 +15,6 @@
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 </head>
-<body>
 	<%
 	String checkinS = request.getParameter("checkin");
 	String checkoutS = request.getParameter("checkout");
@@ -63,7 +62,6 @@
 	String min_distance = request.getParameter("min_distance");
 	
 	String[] meals = request.getParameterValues("meals");
-	out.println(meals);
 	
 	Session sess = HibernateUtil.getInstance().getSession();
 	
@@ -128,6 +126,7 @@
 	System.out.println(q);
 	
 	%>
+<body>
 	
 	<form action="reserverooms.jsp">
 	<table>

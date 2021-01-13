@@ -7,6 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-Insert new hotel
+<a href = currentreservations.jsp>Current Reservations</a>
+<a href = reservationsbydate.jsp>Reservations History</a>
+<a href = clientsearch.jsp>Client Search</a>
+<a href = hotelsearchadmin.jsp>Hotels</a>
 </body>
+
 </html>
