@@ -1,0 +1,49 @@
+@charset "ISO-8859-1";
+
+.topnav {
+   background-color: #1d3557;
+   overflow: hidden;
+   width: 100%;
+   height: 50px;
+   margin: auto;
+}
+
+.topnav a {
+   float: left;
+   color: #f2f2f2;
+   text-align: center;
+   padding: 14px 16px;
+   text-decoration: none;
+   font-size: 17px;
+   font-family: "Monaco", monospace;
+}
+
+.loginForm input{
+   padding: 12px 20px;
+   margin: 8px 0;
+   box-sizing: border-box;
+   border: 3px solid #4a4e69;
+   border-radius: 4px;
+   position: center;
+}
+.loginForm input[type=submit]{
+	padding: 12px 20px;
+  	margin: 8px 0;
+    box-sizing: border-box;
+    border: 3px solid grey;
+    border-radius: 4px;
+    position: center;
+}
+.loginForm label{
+    text-decoration: none;
+    font-size: 17px;
+    font-family: "Monaco", monospace;
+}
+
+.loginForm{
+  	width: 50px;
+  	height: 50px;
+  	position: absolute;
+  	top: 30%;
+  	left: 45%;
+}
