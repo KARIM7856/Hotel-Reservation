@@ -25,7 +25,7 @@ public class Reservation implements java.io.Serializable {
 	@ManyToOne
 	User user;
 	
-	@OneToMany
+	@OneToMany(mappedBy="r")
 	List<RoomInfo> roomInfos;
 	boolean active;
 	boolean cancelled;
@@ -50,12 +50,11 @@ public class Reservation implements java.io.Serializable {
 	 * @param checkIn
 	 * @param expectedCheckOut
 	 */
-	public Reservation(Hotel hotel, User user, List<RoomInfo> roomInfos, boolean active, boolean cancelled,
+	public Reservation(Hotel hotel, User user, boolean active, boolean cancelled,
 			boolean paid, double price, Date checkIn, Date expectedCheckOut) {
 		super();
 		this.hotel = hotel;
 		this.user = user;
-		this.roomInfos = roomInfos;
 		this.active = active;
 		this.cancelled = cancelled;
 		this.paid = paid;
@@ -132,15 +131,17 @@ public class Reservation implements java.io.Serializable {
 		this.actualCheckOut = actualCheckOut;
 	}
 	public void updatePrice() {
-		long nDays = getCheckIn().getTime() - getExpectedCheckOut().getTime()/(1000 * 60 * 60 * 24) % 365;
+		long nDays = (getExpectedCheckOut().getTime() - getCheckIn().getTime())/(1000 * 60 * 60 * 24) % 365;
 		
 		double price = 0.0;
 		
 		
 		
 		for(RoomInfo ri : roomInfos) {
+			System.out.println(ri.getnRooms());
 			price += ri.getnRooms()*ri.getRoom().getPrice()*nDays;
 		}
+		System.out.println(price);
 		this.price = price;
 	}
 	public Date getActualCheckin() {

@@ -13,11 +13,48 @@
 
 <!DOCTYPE html>
 <html>
+<%
+if(request.getSession(false).getAttribute("currentUser") == null){
+	System.out.println("null");
+	response.sendRedirect("index.jsp");
+}
+else{
+	System.out.println("succ");
+
+
+%>
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+	 <meta charset="ISO-8859-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="unifiedCSSFile.css?version=2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Hotel Reservation</title>
 </head>
 <body>
+
+<%
+	HttpSession requestSession = request.getSession(false);
+	User user = (User)requestSession.getAttribute("currentUser");
+%>
+
+<div class="topnav" id="userHomeNB">
+ <div class="menu-btn">
+     <i class="fas fa-bars"></i>
+ </div>
+ 	<p><%=user.getUsername() %></p>
+ </div>
+ <div class="sideBar">
+     <div class="close-btn">
+         <i class="fas fa-times"></i>
+     </div>
+     <div class="userMenu">
+            <div class="item"><a href="UserHome.jsp">Home</a></div>
+            <div class="item"><a href="UserProfile.jsp">Profile</a></div>
+            <div class="item"><a href="updatereservation.jsp">Update Reservations</a></div>
+            <div class="item"><a href="index.jsp">Sign out</a></div>
+     </div>
+ </div>
 
 	<%	
 	HttpSession httpSess = request.getSession(false);
@@ -35,8 +72,17 @@
 	System.out.println(reservationsList.size());
 	System.out.println(currentUser.getAid());
 	%>
-	<form action="managereservations" method=post>
+	 <div class="tableForm" id="manageReservations">
+        <form action="managereservations" method=post>
 	<table>
+            <tr>
+                <th></th>
+                <th>Hotel Name</th>
+                <th>Price</th>
+                <th>Check In</th>
+                <th>Check out</th>
+                <th>Pay</th>
+            </tr>
 	<%
 		for(Reservation r : reservationsList){
 			
@@ -58,11 +104,22 @@ sess.close();
 	<input type=submit name="delete" value="Delete">
 	<input type=submit name="update" value="Update">
 	</form>
+         </div>
 	
 
 	
-
-
-System.out.println("sessionCLosedManage.jsp");
+<script type="text/javascript">
+        $('document').ready(function(){
+        $('.menu-btn').click(function(){
+            $('.sideBar').addClass('active');
+            $('.menu-btn').css("visibility","hidden");
+        })
+        $('.close-btn').click(function(){
+            $('.sideBar').removeClass('active');
+            $('.menu-btn').css("visibility","visible");
+        });
+    });
+    </script>
 </body>
+<%} %>
 </html>

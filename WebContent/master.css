@@ -1,0 +1,77 @@
+:root{
+    --main-color: yellow
+}
+
+
+
+body {
+    font-family: sans-serif;
+
+}
+
+.landing-page{
+    min-height: 100vh;
+    background-image: url(../imgs/wallpaper1.jpg);
+    background-size: cover;
+    position: relative;
+}
+
+.landing-page .overlay{
+    background-color: rgba(0 0 0 / 50%);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1;
+}
+
+.header-area{
+    position: relative;
+    z-index: 2;
+    color: white;
+    display: flex;
+
+
+}
+.header-area .logo{
+    width:300px;
+    padding: 15px;
+
+}
+
+.header-area .links{
+    list-style: none;
+    padding: 0px;
+    width: 100%;
+    text-align: right;
+    padding-right: 20px;
+    
+}
+.header-area .links li{
+    display: inline-block;
+    margin-left: 10px;
+}
+.header-area .links li a{
+    color: white;
+    text-decoration: none;
+    transition: .3s;
+}
+
+.header-area .links li a:hover,
+.header-area .links li a.active{
+    color: var(--main-color);
+}
+.introduction-text{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    color: white;
+    text-align: center;
+    
+}
+.introduction-text h1 span{
+    color: orange;
+}

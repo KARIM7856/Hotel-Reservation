@@ -73,7 +73,7 @@ public class addrating extends HttpServlet {
 		t.commit();
 		
 		sess.close();
-		
+		response.sendRedirect("reserverooms.jsp?" + "selectedhotel="+hotel.getHid() +"&error=0");
 	}
 
 }

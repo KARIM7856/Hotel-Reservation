@@ -51,6 +51,7 @@ public class Signup extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 		PrintWriter out = response.getWriter();
+		System.out.println("succ");
 
         String s = request.getParameter("g-recaptcha-response");
         boolean captchaSuccess = VerifyRecaptcha.verify(s);
@@ -80,11 +81,11 @@ public class Signup extends HttpServlet {
         	String body = EmailHandler.getPwdEmailBody(tempPwd);
         	String subject = "One-time Password";
         	EmailHandler.sendEmail(toEmail, subject, body);
-        	response.sendRedirect("index.html");
+        	response.sendRedirect("Signup.jsp?" + "error=0");
         }
         else{
         	
-        	response.sendRedirect("Signup.jsp?" + "error=Captcha failed");
+        	response.sendRedirect("Signup.jsp?" + "error=1");
         }
 	}
 	

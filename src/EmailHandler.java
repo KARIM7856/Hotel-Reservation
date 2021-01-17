@@ -9,6 +9,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import IA_Project.WebData.Name;
+
 public class EmailHandler {
 	
 
@@ -64,6 +66,12 @@ public class EmailHandler {
 		
 		public static String getPwdEmailBody(String pwd) {
 			return "Please use this password to login (Can use for first login only)\n Password: " + pwd; 
+		}
+
+		public static String getCancellingEmailBody(Name name, String username, String hotelName) {
+			
+			return "User: "+name.getfName() + " " + name.getmName() + " " + name.getlName() +"(" + username +") " 
+			+ "has cancelled his/her reservations to " + hotelName;
 		}
 	
 	}

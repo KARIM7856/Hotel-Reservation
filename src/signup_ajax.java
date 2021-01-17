@@ -37,7 +37,7 @@ public class signup_ajax extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class signup_ajax extends HttpServlet {
 		
 		List<User> us = c.list();
 		if(!us.isEmpty()) {
-			out.print("user name is taken");
+			out.print("Username is taken<br>");
 		}
 		c = sess.createCriteria(User.class);
 		
@@ -67,12 +67,12 @@ public class signup_ajax extends HttpServlet {
 		List<User> us2 = c.list();
 		
 		if(!us2.isEmpty()) {
-			out.print("email is taken");
+			out.print("Email is taken<br>");
 		}
 		
 		else
 		{
-			out.print("user name and email are taken");
+			out.print("success");
 		}
 		}catch(Exception e) {
 			e.printStackTrace();

@@ -9,12 +9,12 @@ import IA_Project.WebData.*;
 
 public class HibernateUtil {
 	private static HibernateUtil instance;
-	private static SessionFactory sessionFactory = new Configuration().configure().addAnnotatedClass(User.class)
-			.addAnnotatedClass(Hotel.class).addAnnotatedClass(Room.class).addAnnotatedClass(Reservation.class)
-			.addAnnotatedClass(RoomInfo.class)
-			.addAnnotatedClass(Rate.class).addAnnotatedClass(Name.class).buildSessionFactory();
+	private static SessionFactory sessionFactory = null;
 	private HibernateUtil() {
-		
+		sessionFactory = new Configuration().configure().addAnnotatedClass(User.class)
+		.addAnnotatedClass(Hotel.class).addAnnotatedClass(Room.class).addAnnotatedClass(Reservation.class)
+		.addAnnotatedClass(RoomInfo.class).addAnnotatedClass(Notification.class)
+		.addAnnotatedClass(Rate.class).addAnnotatedClass(Name.class).buildSessionFactory();
 	}
 	public static HibernateUtil getInstance() {
 		if (instance == null) {
@@ -127,7 +127,7 @@ public class HibernateUtil {
 		// TODO Auto-generated method stub
 		Session sess = getSession();
 		Reservation reservation = (Reservation)sess.get(Reservation.class, rid);
-		System.out.println("fdsf"+reservation.getRoomInfos());
+		//System.out.println("fdsf"+reservation.getRoomInfos());
 		sess.close();
 		
 		return reservation;

@@ -12,9 +12,24 @@
 
 <!DOCTYPE html>
 <html>
+<%
+if(request.getSession(false).getAttribute("currentUser") == null){
+	System.out.println("null");
+	response.sendRedirect("index.jsp");
+}
+else{
+	System.out.println("succ");
+
+
+%>
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+	<meta charset="ISO-8859-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="unifiedCSSFile.css?version=2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="ReservationUpdateValidate.js"></script>
+    <title>Hotel Reservation</title>
 </head>
 <%	
 	HttpSession httpSess = request.getSession(false);
@@ -48,14 +63,52 @@
 	%>
 <body>
 
-<form action = reservationsbydate.jsp>
-	<input type=date name=begindate>
-	<input type=date name=enddate>
+<body>
+<div class="topnav" id="userHomeNB">
+ <div class="menu-btn">
+     <i class="fas fa-bars"></i>
+ </div>
+    <div class="AHdropdown">
+        <button class="dropbtn">Notifications
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+          
+        </div>
+    </div>
+ </div>
+ <div class="sideBar">
+     <div class="close-btn">
+         <i class="fas fa-times"></i>
+     </div>
+     <div class="userMenu">
+            <div class="item"><a href="UserHome.jsp">Home</a></div>
+            <div class="item"><a href = currentreservations.jsp>Current Reservations</a></div>
+            <div class="item"><a href = reservationsbydate.jsp>Reservations History</a></div>
+            <div class="item"><a href = hotelsearchadmin.jsp>Hotels</a></div>
+            <div class="item"><a href="index.jsp">Sign out</a></div>
+            
+     </div>
+ </div>
+    <div class="tableForm" id="manageReservations">
+<form action = reservationsbydate.jsp onsubmit="return ReservationByDateValidate()">
+	<input type=date name=begindate id="begindate">
+	<input type=date name=enddate id="enddate">
 	<input type=submit value=search>
 </form>
+        <table>
+            <tr>
+                <th></th>
+                <th>Hotel Name</th>
+                <th>Price</th>
+                <th>CheckIn</th>
+                <th>Checkout</th>
+                <th>Paid</th>
+                <th>Actual CheckIn</th>
+                <th>Actual Check out</th>
 
-
-<table>
+                
+            </tr>
 	<%
 	if(reservationsList != null){
 		for(Reservation r : reservationsList){
@@ -76,6 +129,19 @@
 sess.close();
 	%>
 	</table>
-
-</body>
+</div>
+    	<%} %>
+<script type="text/javascript">
+        $('document').ready(function(){
+        $('.menu-btn').click(function(){
+            $('.sideBar').addClass('active');
+            $('.menu-btn').css("visibility","hidden");
+        })
+        $('.close-btn').click(function(){
+            $('.sideBar').removeClass('active');
+            $('.menu-btn').css("visibility","visible");
+        });
+    });
+    </script>
+    </body>
 </html>

@@ -62,16 +62,7 @@ public class updatereservations extends HttpServlet {
 		reservation.setExpectedCheckOut(checkoutD);
 		System.out.println(checkoutD);
 		
-		long nDays = reservation.getCheckIn().getTime() - reservation.getExpectedCheckOut().getTime()/(1000 * 60 * 60 * 24) % 365;
-		
-		double price = 0.0;
-		
-		
-		
-		for(RoomInfo ri : reservation.getRoomInfos()) {
-			price += ri.getnRooms()*ri.getRoom().getPrice()*nDays;
-		}
-		reservation.setPrice(price);
+		reservation.updatePrice();
 		//reservation.updatePrice();
 		Session sess = HibernateUtil.getInstance().getSession();
 		Transaction t = sess.beginTransaction();
@@ -79,7 +70,7 @@ public class updatereservations extends HttpServlet {
 		sess.update(reservation);
 		t.commit();
 		sess.close();
-		
+		response.sendRedirect("managereservations.jsp?error=0");
 	}
 
 }

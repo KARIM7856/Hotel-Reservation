@@ -20,10 +20,11 @@ public class RoomInfo implements java.io.Serializable{
 	 * @param room
 	 * @param nRooms
 	 */
-	public RoomInfo(Room room, int nRooms) {
+	public RoomInfo(Room room, int nRooms,Reservation r) {
 		super();
 		this.room = room;
 		this.nRooms = nRooms;
+		this.r = r;
 	}
 	
 	public RoomInfo() {
@@ -47,6 +48,14 @@ public class RoomInfo implements java.io.Serializable{
 	}
 	public void setnRooms(int nRooms) {
 		this.nRooms = nRooms;
+	}
+
+	public Reservation getR() {
+		return r;
+	}
+
+	public void setR(Reservation r) {
+		this.r = r;
 	}
 	
 	

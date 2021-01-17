@@ -48,6 +48,9 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+		try {
+			
+			
 		String pwd = request.getParameter("password1");
 		System.out.println(pwd);
 		String username = request.getParameter("username1");
@@ -59,15 +62,24 @@ public class Login extends HttpServlet {
 		Query q = sess.createQuery("select u.passwordHash, u.type, u.aid from User u where u.username= :username");
 		q.setParameter("username", username);
 		List<Object[]> res = q.list();
+		String dbPwdHash = "";
+		int aid=-1;
+		if(!res.isEmpty()) {
+			
+			dbPwdHash = (String) res.get(0)[0];
+			aid = (Integer) res.get(0)[2];
+		}
+		else {
+			response.sendRedirect("index.jsp?error=1");
+		}
 		
-		String dbPwdHash = (String) res.get(0)[0];
-		String type = (String) res.get(0)[1];
-		int aid = (Integer) res.get(0)[2];
 		if(pwdHash.equals(dbPwdHash)) {
+			System.out.println("it ended");
 			User user = (User)sess.load(User.class, aid);
 			System.out.println(user);
 			HttpSession requestSession = request.getSession(true);
 
+			String type = user.getType();
 			System.out.println(requestSession.getId());
 			requestSession.setAttribute("currentUser", user);
 			switch(type) {
@@ -84,8 +96,12 @@ public class Login extends HttpServlet {
 			sess.close();
 		}
 		else {
-			response.sendRedirect("index.html");
+			response.sendRedirect("index.jsp?error=1");
 			System.out.println("fail");
+		}
+		}
+		catch(Exception e){
+			e.printStackTrace();
 		}
 	}
 

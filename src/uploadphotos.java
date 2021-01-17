@@ -135,7 +135,7 @@ public class uploadphotos extends HttpServlet {
 	}
 		   
 		   
-		   
+		   response.sendRedirect("hotelphotosupdate.jsp");
 
 }
 }

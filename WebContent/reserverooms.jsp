@@ -9,15 +9,31 @@
 
 <!DOCTYPE html>
 <html>
+<%
+if(request.getSession(false).getAttribute("currentUser") == null){
+	System.out.println("null");
+	response.sendRedirect("index.jsp");
+}
+else{
+	System.out.println("succ");
+
+
+%>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="unifiedCSSFile.css?version=2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="RatingValidation.js"></script>
+    <title>Hotel Reservation</title>
+
 
 <style type="text/css">
 @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
 
 fieldset, label { margin: 0; padding: 0; }
-body{ margin: 20px; }
+body{ margin: 0px; }
 h1 { font-size: 1.5em; margin: 10px; }
 
 /****** Style Star Rating Widget *****/
@@ -29,7 +45,7 @@ h1 { font-size: 1.5em; margin: 10px; }
 
 .rating > input { display: none; } 
 .rating > label:before { 
-  margin: 5px;
+  margin: 1px;
   font-size: 1.25em;
   font-family: FontAwesome;
   display: inline-block;
@@ -56,22 +72,57 @@ h1 { font-size: 1.5em; margin: 10px; }
 .rating > input:checked ~ label:hover,
 .rating > label:hover ~ input:checked ~ label, /* lighten current selection */
 .rating > input:checked ~ label:hover ~ label { color: #FFED85;  } </style>
-
 </head>
 <body>
 <%
-
+	HttpSession requestSession = request.getSession(false);
+	User user = (User)requestSession.getAttribute("currentUser");
+	
 	int hid = Integer.parseInt(request.getParameter("selectedhotel"));
-
+	String error = request.getParameter("error");
+	int e = -1;
+	String msg = "";
+	if(error != null){
+		e = Integer.parseInt(error);
+		msg = "Thank for rating!";
+	}
+	
 	Session  sess = HibernateUtil.getInstance().getSession();
 	Hotel hotel = (Hotel)sess.load(Hotel.class, hid);
 	request.getSession(false).setAttribute("currentHotel", hotel);
+	hotel.getImages().size();
+	request.getSession(false).setAttribute("currentImages", hotel.getImages());
 	List<Room> rooms = hotel.getRooms();
 	%>
 	
 	
+	 <div class="topnav" id="userHomeNB">
+ <div class="menu-btn">
+     <i class="fas fa-bars"></i>
+ </div>
+ 	<p><%=user.getUsername() %></p>
+ </div>
+ <div class="sideBar">
+     <div class="close-btn">
+         <i class="fas fa-times"></i>
+     </div>
+     <div class="userMenu">
+            <div class="item"><a href="UserHome.jsp">Home</a></div>
+            <div class="item"><a href="UserProfile.jsp">Profile</a></div>
+            <div class="item"><a href="hotelsearch.jsp">Hotel Search</a></div>
+            <div class="item"><a href="updatereservation.jsp">Update Reservations</a></div>
+            <div class="item"><a href="index.jsp">Sign out</a></div>
+     </div>
+ </div>
+        
+	<div class="tableForm" id="manageReservations">
 	<form action=AddReservation method = post>
 <table>
+    <tr>
+        <th>Room Type</th>
+        <th>Number of Beds</th>
+        <th>Price</th>
+    </tr>
 	<%
 	for(Room r : rooms){
 %>
@@ -79,6 +130,7 @@ h1 { font-size: 1.5em; margin: 10px; }
 	<tr>
 	<td><%= r.getType() %></td>
 	<td><%= r.getnBeds() %></td>
+	<td><%=r.getPrice() %>
 	<td><select name = <%= "room" +r.getRid() %>  id=<%="room" + r.getRid() %>>
 	<% for(int i = 0; i <= r.getnRooms(); i++){ %>
 		<option id=<%=i %> value=<%=i %> ><%=i %></option>
@@ -96,7 +148,7 @@ h1 { font-size: 1.5em; margin: 10px; }
 	sess.close();
 %>
 
-<form action = addrating method = post>
+<form action = addrating method = post onsubmit="return RatingValidation()">
 
 	<fieldset class="rating">
 	    <input type="radio" id="star10" name="rating" value="10" /><label class = "full" for="star10" title="10 stars"></label>
@@ -110,8 +162,28 @@ h1 { font-size: 1.5em; margin: 10px; }
 	    <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="2 stars"></label>
 	    <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="1 star"></label>
 	</fieldset>
-	<textarea  name="ratecomment"></textarea>
+	<textarea  name="ratecomment" rows="4" cols="60"></textarea>
 	<input type=submit value=Rate>
 </form>
+<p style="color:green;"><%=msg %></p>
+<a id="links" href=viewhotelphotos.jsp>View Photos</a>
+<iframe width="520" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" id="gmap_canvas" src="https://maps.google.com/maps?width=520&amp;height=400&amp;hl=en&amp;q=<%=hotel.getName().replace(" ","%20")+"%20"+hotel.getCity() %>+(map)&amp;t=&amp;z=12&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
+</iframe> <a href='https://add-map.org/'>google maps on my website</a> 
+</div>
+<script type='text/javascript' src='https://embedmaps.com/google-maps-authorization/script.js?id=6d81755835273a4b2151a8432bc00c503c5d7795'></script>
+
+<script type="text/javascript">
+        $('document').ready(function(){
+        $('.menu-btn').click(function(){
+            $('.sideBar').addClass('active');
+            $('.menu-btn').css("visibility","hidden");
+        })
+        $('.close-btn').click(function(){
+            $('.sideBar').removeClass('active');
+            $('.menu-btn').css("visibility","visible");
+        });
+    });
+    </script>
 </body>
+<%} %>
 </html>

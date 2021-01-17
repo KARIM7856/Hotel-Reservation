@@ -43,7 +43,7 @@ public class UpdateUser extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
-		
+		System.out.println("User Update called");
 		User user = (User) request.getSession(false).getAttribute("currentUser");
 		String email = request.getParameter("email");
     	String fname = request.getParameter("fname");

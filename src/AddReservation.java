@@ -54,31 +54,33 @@ public class AddReservation extends HttpServlet {
 		
 		List<Room> rooms = currentHotel.getRooms();
 		List<RoomInfo>roomInfoList = new ArrayList<RoomInfo>();
-		for(Room r : rooms) {
-			int nRooms = Integer.parseInt(request.getParameter("room"+r.getRid()));
-			if(nRooms > 0) {
-				roomInfoList.add(new RoomInfo(r,nRooms));
-			}
-		}
 		
 		Date checkin = (Date)request.getSession(false).getAttribute("checkin");
 		Date checkout = (Date)request.getSession(false).getAttribute("checkout");
-		Reservation res = new Reservation(currentHotel,currentUser,roomInfoList,true,false,false,1000,checkin,checkout);
+		Reservation res = new Reservation(currentHotel,currentUser,true,false,false,1000,checkin,checkout);
 		currentUser.getReservations().add(res);
 		
+		for(Room r : rooms) {
+			int nRooms = Integer.parseInt(request.getParameter("room"+r.getRid()));
+			if(nRooms > 0) {
+				roomInfoList.add(new RoomInfo(r,nRooms,res));
+			}
+		}
+		res.setRoomInfos(roomInfoList);
 		res.updatePrice();
 		Session sess = HibernateUtil.getInstance().getSession();
 		Transaction t = sess.beginTransaction();
 		
 		
+		sess.save(res);
 		for(RoomInfo rinfo : roomInfoList) {
+			System.out.println(rinfo);
 			sess.saveOrUpdate(rinfo);
 			sess.flush();
 			sess.clear();
 		}
 		
 		//sess.save(res.getRoomInfos());
-		sess.save(res);
 		
 		t.commit();
 		sess.close();

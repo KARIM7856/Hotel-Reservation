@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import IA_Project.Util.HibernateUtil;
+import IA_Project.WebData.Notification;
 import IA_Project.WebData.Reservation;
 import IA_Project.WebData.User;
 
@@ -48,17 +49,29 @@ public class deletereservation extends HttpServlet {
 		
 		
 		
+		User user = reservation.getUser();
 		Session sess = HibernateUtil.getInstance().getSession();
 		reservation.setCancelled(true);
 		reservation.setActive(false);
 		Transaction t = sess.beginTransaction();
-		User user = reservation.getUser();
-		EmailHandler.sendEmail(user.getEmail(), "user deleted " + reservation.getHotel().getName(), "user dleeted hist bta3");
+		User currentUser = (User) request.getSession(false).getAttribute("currentUser");
+		if(currentUser.getType().equals("user")) {
+			System.out.println("user");
+			String emailBody = EmailHandler.getCancellingEmailBody(user.getName(),user.getUsername(),reservation.getHotel().getName());
+			EmailHandler.sendEmail("g.karim1998@yahoo.com", "user deleted " + reservation.getHotel().getName(), emailBody);
+		}
+		else {
+			System.out.println("la2a");
+		}
 		sess.update(reservation.getHotel());
 		sess.update(reservation);
+		sess.save(new Notification(user.getUsername() + "Deleted his/her reservation to hotel"
+									+ reservation.getHotel().getName()));
 		t.commit();
 		sess.close();
 		response.getWriter().println("reservation deleted");
+		
+		response.sendRedirect("managereservations.jsp");
 	}
 
 }

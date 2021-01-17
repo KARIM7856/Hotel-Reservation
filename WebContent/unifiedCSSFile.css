@@ -1,49 +1,805 @@
 @charset "ISO-8859-1";
 
+body{
+    background-image: url("back.jpeg");
+    height: 570px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: white;
+    padding: 0%;
+    margin: 0%;
+}
+
 .topnav {
-   background-color: #1d3557;
-   overflow: hidden;
-   width: 100%;
-   height: 50px;
-   margin: auto;
+    background-color: #161a1d;
+    overflow: hidden;
+    width: 100%;
+    height: 50px;
+    margin: auto;
 }
 
 .topnav a {
-   float: left;
+   float: right;
    color: #f2f2f2;
    text-align: center;
    padding: 14px 16px;
+   border-radius: 20px;
    text-decoration: none;
    font-size: 17px;
    font-family: "Monaco", monospace;
 }
+.topnav a:hover{
+    background-color: #fdfffc;
+    color: #011627;
+}
+.topnav p{
+	float: right;
+	color: white;
+	font-family: "Monaco", monospace;
+	font-size: 17px;
+	padding-right: 10px;
+}
 
-.loginForm input{
+#links{
+   color: #f2f2f2;
+   background-color: #011627;
+   text-align: center;
+   padding: 14px 16px;
+   border-radius: 20px;
+   text-decoration: none;
+   font-size: 17px;
+   font-family: "Monaco", monospace;
+	opacity: 0.7;
+	float:right;
+}
+#links:hover{
+    opacity: 1;
+}
+
+
+.form{
+    margin: auto;
+    width: 25%;
+    height: 30%;
+    box-shadow: 0 3px 7px 0 #4a4e69;
+    position: absolute;
+    top: 28%;
+    left: 35%;
+    border-radius: 5px;
+    background-color: #fdfffc;
+    padding: 20px;  
+    transition: border-color 0.2s;
+}
+.form table td{
+	border-bottom: 0px;
+}
+
+.form input{
    padding: 12px 20px;
    margin: 8px 0;
-   box-sizing: border-box;
-   border: 3px solid #4a4e69;
-   border-radius: 4px;
+   /*box-sizing: border-box;*/
+   /*border: 3px solid #4a4e69;*/
+   /*border-radius: 4px;*/
+   border: none;
+   color: black;
+   border-bottom: 2px solid #4a4e69;
+   background-color: #fdfffc;
    position: center;
 }
-.loginForm input[type=submit]{
-	padding: 12px 20px;
-  	margin: 8px 0;
-    box-sizing: border-box;
-    border: 3px solid grey;
-    border-radius: 4px;
-    position: center;
+.form input:focus {
+    outline: none;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: black;
+    border-image: linear-gradient(to right, #161a1d,#008CBA);
+    border-image-slice: 1;
+    border-bottom: 2px solid white;
 }
-.loginForm label{
+.form input[type=submit]{
+    background-color: #011627;
+    font-size: 16px;
+    border: none;
+    color: white;
+    padding: 14px 40px;
+    text-align: center;
     text-decoration: none;
+    display: inline-block;
+    font-family: "Monaco", monospace;
+    border-radius: 12px;
+    opacity: 0.7;
+    cursor: pointer;
+}
+.form label{
+    color: black;
+    txt-decoration: none;
     font-size: 17px;
+    padding: 10px;
+    padding-top: 10px;
+    margin: 15px;
     font-family: "Monaco", monospace;
 }
+.form input[type=submit]:hover{
+    opacity: 1;
+}
 
-.loginForm{
-  	width: 50px;
-  	height: 50px;
-  	position: absolute;
-  	top: 30%;
-  	left: 45%;
+#signupForm{
+    top: 15%;
+    height: 65%;
+    width: 30%;
+}
+#signupForm input[type=button]{
+    background-color: #011627;
+    font-size: 16px;
+    border: none;
+    color: white;
+    padding: 14px 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-family: "Monaco", monospace;
+    border-radius: 12px;
+    opacity: 0.7;
+    cursor: pointer;
+}
+#signupForm input[type=button]:hover{
+    opacity: 1;
+}
+
+#userNavBar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+#userNavBar a{
+    float: left;
+}
+
+#userHome{
+    height: 38%;
+    width: 20%;
+    padding: 25px 10px 25px 150px;
+}
+
+.sideBar{
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    width: 290px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    overflow-y: auto;
+    transition: 0.6s ease;
+    transition-property: left;
+}
+.sideBar.active{
+    left: 0;
+    position: absolute;
+    z-index: 99 !important;
+}
+.sideBar .userMenu{
+    width:100%;
+    margin-top: 80px;
+}
+.sideBar .userMenu .item{
+    position: relative;
+    cursor: pointer;
+}
+.sideBar .userMenu a{
+    color: black;
+    font-size: 16px;
+    text-decoration: none;
+    display: inline-block;
+    font-family: "Monaco", monospace;
+    display: block;
+    padding: 5px 30px;
+    line-height: 60px;
+}
+.sideBar .userMenu a:hover{
+    background: #011627;
+    opacity: 0.7;
+    color: #fff;
+    transition: 0.3s ease;
+    
+}
+.close-btn{
+    position: absolute;
+    color: black;
+    font-size: 20px;
+    right: 0;
+    margin: 25px;
+    cursor: pointer;
+}
+.menu-btn{
+    position: absolute;
+    color: #fff;
+    font-size: 20px;
+    
+    margin: 25px;
+    cursor: pointer;
+}
+.menu-btn:hover{
+    background-color: #fff;
+    border-radius: 20px;
+    color: black;
+    transition: 0.3s ease;
+}
+#userHomeNB{
+    padding: 0px 0px 10px 0px;
+}
+
+#profileForm{
+    top: 12%;
+    height: 70%;
+    width: 30%;
+}
+#profileForm input[type=button]{
+	background-color: #011627;
+    font-size: 16px;
+    border: none;
+    color: white;
+    padding: 14px 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-family: "Monaco", monospace;
+    border-radius: 12px;
+    opacity: 0.7;
+    cursor: pointer;
+}
+#profileForm input[type=button]:hover{
+	opacity: 1;
+}
+
+#AHForm{
+    top: 60px;
+    left: 17%;
+    height: 620px;
+    width: 50%;
+    align-content: center;
+    padding-left: 260px;
+}
+.AHdropdown{
+    float: right;
+    overflow: hidden;
+}
+.AHdropdown:hover .dropdown-content{
+	display: block;	
+}
+
+.AHdropdown .dropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  display: inline-block;
+  font-family: inherit;
+  font-family: "Monaco", monospace;
+  margin: 5px;
+}
+.AHdropdown:hover .dropbtn {
+  background-color: #fff;
+  color: black;
+}
+.dropdown-content{
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+.dropdown-content p{
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+.dropdown-content p:hover{
+    background-color: #fff;
+}
+.CSResultItem{
+    width: auto;
+    height: auto;
+    
+}
+#CSForm{
+    top: 60px;
+    left: 20%;
+    /* display: flex; */
+    /* flex-direction: column; */
+    width: 70%;
+    height: fit-content;
+    align-content: center;
+    padding-left: 0px;
+}
+.content-card{
+    background: lightgray;
+    border-radius: 3px;
+    border-top: groove;
+}
+}
+#CSForm table{
+    align-content: center;
+    text-align: center;
+    font-family: "Monaco", monospace;
+}
+#CRSearchForm{
+    top: 10%;
+    height: 20%;
+}
+#CRForm{
+    top: 40%;
+    width: auto;
+    height: auto;
+    left: 27%;
+}
+#updatePhotosForm{
+    top: 10%;
+    width: auto;
+    height: auto;
+}
+#deletPhotosForm{
+    top: 50%;
+    left: 12%;
+    width: auto;
+    height: auto;
+}
+#deletPhotosForm input:checked ~ .checkmark{
+	background-color: black;
+}
+#checkBox-image .checkmark:after{
+	width: 50px;
+	height: 50px;
+}
+
+#updatePhotosForm input[type=file]{
+    background-color: #011627;
+    font-size: 16px;
+    border: none;
+    color: white;
+    padding: 14px 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-family: "Monaco", monospace;
+    border-radius: 12px;
+    opacity: 0.7;
+    cursor: pointer;
+}
+#updatePhotosForm input[type=file]:hover{
+    opacity: 1;
+}
+#reserveRoomsForm{
+    top: 10%;
+    height: auto;
+    width: auto;
+    left: 40%;
+}
+#reserveRoomsForm img{
+	width: 200px;
+	height: 200px;
+}
+#reserveRoomsForm a{
+	background-color: #011627;
+    font-size: 15px;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-family: "Monaco", monospace;
+    border-radius: 15px;
+    opacity: 0.7;
+    cursor: pointer;
+}
+#reserveRoomsForm a:hover{
+	opacity: 1;
+}
+#HotelsForm{
+    top: 10%;
+    left: 2%;
+    width: auto;
+    height: auto;
+    font-size: 10px;
+    font-family: "Monaco", monospace;
+}
+#HotelsForm label{
+    font-size: 10px;
+}
+#HotelsForm input{
+    padding: 5px;
+    font-size: 11px;
+}
+#HotelsForm input[type=text]{
+    width: 70%;
+}
+#HotelsForm input[type=text]:focus{
+    width: 50%;
+}
+#HotelsForm table td{
+    padding: 1px;
+}
+
+.r_sdiv{
+    top: 0;
+    width: 75%;
+    float: right;
+    
+}
+.r_sdiv div{
+    position: relative;
+    text-align: left;
+     margin: 12px 12px 12px 12px;
+     background: #ddd;
+    width:800px;
+    height:300px
+    float: right;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+     
+}
+.r_sdiv div div{
+    float: right;
+    width: 100%;
+    height:200px;
+    background: #06C5CF;
+    padding-bottom: 40px;
+}
+.r_sdiv div .content p{
+    position: relative;
+    bottom: 0;
+    right: 0;
+    float: right;
+    margin-left: 100px;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 60px;
+    border-radius: 7px ;
+    outline: none;
+    
+    cursor: pointer;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: white;
+    padding: 0;
+    color: white;
+}
+.r_sdiv div form input:hover{
+    opacity: 0.5;
+}
+.r_sdiv div form h3{
+    color: #06C5CF;
+    margin-bottom: 10px;
+    font-size: 10px;
+}
+
+.r_sdiv div form p{
+    color: #06C5CF;
+    font-family: sans-serif;
+    font-size: 20px;
+}
+
+#updateHotelForm{
+    top: 10%;
+    left: 13%;
+    width: 33%;
+    height: 78%;
+}
+#updateHotelForm table{
+    font-family: "Monaco", monospace;
+}
+#updateHotelForm a {
+    background-color: #011627;
+    font-size: 16px;
+    border: none;
+    color: white;
+    padding: 14px 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-family: "Monaco", monospace;
+    border-radius: 12px;
+    opacity: 0.7;
+    cursor: pointer;
+}
+#updateHotelForm a:hover{
+    opacity: 1;
+}
+#updateRoomForm{
+    top: 10%;
+    left: 50%;
+    width: 33%;
+    height: auto;
+}
+#hotelSearchForm{
+    left: 5%;
+    width: 30%;
+}
+#hotelSearchForm a{
+    background-color: #011627;
+    font-size: 12px;
+    border: none;
+    color: white;
+    padding: 5px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-family: "Monaco", monospace;
+    border-radius: 14px;
+    opacity: 0.7;
+    cursor: pointer;
+}
+#hotelSearchForm a:hover{
+    opacity: 1;
+}
+#HSForm{
+    left: 40%;
+    width: 30%;
+    height: 35%;
+}
+
+.tableForm{
+    top: 3%;
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    margin: 0;
+    padding: 10px 45px 30px 45px;
+    border-radius: 12px;
+    width: 80%;
+    left: 8%;
+    box-shadow: 0 3px 7px 0 #4a4e69;
+}
+.tableForm input{
+   padding: 12px 20px;
+   margin: 8px 0;
+   border: none;
+   color: black;
+   border-bottom: 2px solid #4a4e69;
+   background-color: #fdfffc;
+   position: center;
+}
+.tableForm input:focus {
+    outline: none;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: black;
+    border-image: linear-gradient(to right, #161a1d,#008CBA);
+    border-image-slice: 1;
+    border-bottom: 2px solid white;
+}
+.tableForm input[type=submit]{
+    background-color: #011627;
+    font-size: 16px;
+    border: none;
+    color: white;
+    padding: 14px 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-family: "Monaco", monospace;
+    border-radius: 12px;
+    opacity: 0.7;
+    cursor: pointer;
+}
+.tableForm label{
+    color: black;
+    txt-decoration: none;
+    font-size: 17px;
+    padding: 10px;
+    padding-top: 10px;
+    margin: 15px;
+    font-family: "Monaco", monospace;
+}
+.tableForm input[type=submit]:hover{
+    opacity: 1;
+}
+
+#manageReservations form {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    background: white;
+    border-radius:4px;
+    align-content: center;
+}
+#manageReservations table{
+    font-family: "Monaco", monospace;
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+#manageReservations table th{
+    background-color: #011627;
+    opacity: 0.7;
+    color: #fff;
+    font-size: 20px;
+    height: 70px;
+}
+#manageReservations table th, td {
+    border-bottom: 1px solid #ddd;
+}
+#manageReservations table td{
+    height: 60px;
+}
+#manageReservations tr:hover {background-color: #f5f5f5;}
+
+#manageReservations #currentRTB{
+	top: 30%;
+}
+
+#viewRateTable form{
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    background: white;
+    border-radius:4px;
+    align-content: center;
+}
+#viewRateTable table{
+    font-family: "Monaco", monospace;
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+#viewRateTable table th{
+    background-color: #011627;
+    opacity: 0.7;
+    color: #fff;
+    font-size: 15px;
+    height: 70px;
+}
+#viewRateTable table th, td {
+    border-bottom: 1px solid #ddd;
+}
+#viewRateTable table td{
+    font-size: 14px;
+    height: 60px;
+}
+#viewPhotos{
+    width: auto;
+}
+.img-slider{
+  position: relative;
+  width: 800px;
+  height: 500px;
+  margin: 10px;
+  background: #1D212B;
+}
+.img-slider .slide{
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  clip-path: circle(0% at 0 50%);
+}
+.img-slider .slide.active{
+  clip-path: circle(150% at 0 50%);
+  transition: 2s;
+  transition-property: clip-path;
+}
+.img-slider .slide img{
+  z-index: 1;
+  width: 100%;
+  border-radius: 5px;
+}
+.img-slider .navigation{
+  z-index: 2;
+  position: absolute;
+  display: flex;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.img-slider .navigation .btn{
+  background: rgba(255, 255, 255, 0.5);
+  width: 12px;
+  height: 12px;
+  margin: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.img-slider .navigation .btn.active{
+  background: #2696E9;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+@media (max-width: 820px){
+  .img-slider{
+    width: 600px;
+    height: 375px;
+  }
+
+  .img-slider .slide .info{
+    padding: 10px 25px;
+  }
+
+  .img-slider .slide .info h2{
+    font-size: 35px;
+  }
+
+  .img-slider .slide .info p{
+    width: 70%;
+    font-size: 15px;
+  }
+
+  .img-slider .navigation{
+    bottom: 25px;
+  }
+
+  .img-slider .navigation .btn{
+    width: 10px;
+    height: 10px;
+    margin: 8px;
+  }
+}
+
+@media (max-width: 620px){
+  .img-slider{
+    width: 400px;
+    height: 250px;
+  }
+
+  .img-slider .slide .info{
+    padding: 10px 20px;
+  }
+
+  .img-slider .slide .info h2{
+    font-size: 30px;
+  }
+
+  .img-slider .slide .info p{
+    width: 80%;
+    font-size: 13px;
+  }
+
+  .img-slider .navigation{
+    bottom: 15px;
+  }
+
+  .img-slider .navigation .btn{
+    width: 8px;
+    height: 8px;
+    margin: 6px;
+  }
+}
+
+@media (max-width: 420px){
+  .img-slider{
+    width: 320px;
+    height: 200px;
+  }
+
+  .img-slider .slide .info{
+    padding: 5px 10px;
+  }
+
+  .img-slider .slide .info h2{
+    font-size: 25px;
+  }
+
+  .img-slider .slide .info p{
+    width: 90%;
+    font-size: 11px;
+  }
+
+  .img-slider .navigation{
+    bottom: 10px;
+  }
+}
+textarea{
+	resize: none;
+}                 
+#img-form{
+	width: 820px;
+	height: 580px;
+	left: 20%;
+	top: 20%;
 }

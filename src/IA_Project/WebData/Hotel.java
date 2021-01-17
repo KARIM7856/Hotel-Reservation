@@ -1,5 +1,6 @@
 package IA_Project.WebData;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.CollectionTable;
@@ -132,6 +133,30 @@ public class Hotel implements java.io.Serializable {
 		this.images.add(i);
 		
 	}
+	@Override
+	public String toString() {
+		return "Hotel [hid=" + hid + ", price=" + price + ", userRating=" + userRating + ", distanceToCityCenter="
+				+ distanceToCityCenter + ", stars=" + stars + ", name=" + name + ", address=" + address;
+	}
+	
+	public double[] getPrices() {
+		double[] prices = new double[rooms.size()];
+		int i = 0;
+		for(Room r : rooms) {
+			prices[i] = r.getPrice();
+			i++;
+		}
+		
+		return prices;
+	}
+	
+	public double minP() {
+		double[] prices = getPrices();
+		 Arrays.sort(prices);
+		return prices[0];
+	}
+	
+	
 	
 	
 }
